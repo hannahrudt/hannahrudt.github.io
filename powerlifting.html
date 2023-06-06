@@ -1,0 +1,440 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://d3js.org/topojson.v3.min.js"></script>
+</head>
+
+<style>
+.gridlines line {
+    stroke: #bbb;
+}
+  
+.gridlines .domain {
+    stroke: none;
+}
+
+g.mouseover rect {
+    fill: white;
+    stroke: #222;
+    stroke-width: 1px;
+}
+g.mouseover text {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+div#legend{
+    /* border-style: solid; */
+    height: 50px;
+    width: 300px;
+    position: relative;
+    left: 100px; 
+}
+
+.legendLabel:hover {
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+/* .legendLabel:active {
+    text-decoration: underline;
+    font-weight: bold;
+} */
+
+.legendG {
+    cursor: pointer;
+}
+
+</style>
+
+<body>
+    <h3> Hannah Rudt </h3>
+
+    <p>I am visualizing the powerlifting dataset because I am personally interested in female athletes and the dataset provides many 
+        opportunities to break down the data into categories (e.g., by age, by event, by biological sex). The question I will answer with 
+        my visualization is: Have female athletes age 24-34 improved their squat and benchpress performance over time? <br>
+        The plotted points have mouseover so when the pointer hovers, a text box appears on the top left of the graph with information
+        about the athlete, date of event, and weight lifted (bench or squat). The legend can be clicked on to highlight each event. <br>
+
+        One design choice I would have liked to incorporate was maintaining the bold text and increased stroke around the circles in the 
+        legend when clicked, but I didn't get a chance to figure it out. 
+    </p>
+
+    <div id="legend"></div>
+
+    <div id="svgdiv">
+        <svg id="svg" height="800" width="900"></svg>
+    </div>
+
+    <script>
+        const svg = d3.select("svg#svg");
+        const width = svg.attr("width");
+        const height = svg.attr("height");
+        const margin = {top: 10, right: 10, bottom: 30, left: 50};
+        const chartWidth = width - margin.left - margin.right;
+        const chartHeight = height - margin.top - margin.bottom;
+
+        let annotations = svg.append("g").attr("id","annotations");
+        let chartArea = svg.append("g")
+                           .attr("id","dataPoints")
+                           .attr("transform",`translate(${margin.left},${margin.top})`);
+
+        // MOUSEOVER DETAILS BOX
+        const details = svg.append("g")
+                            .attr("class","mouseover")
+                            .attr("transform",`translate(${margin.left+15},${margin.top+15})`);
+
+        // From lecture 10/6/2021
+        function stringLen(str) {
+            const dummytext = details.append("text").attr("class","legendtext").attr("visibility","hidden");
+            dummytext.text(str)
+            let len = dummytext.node().getComputedTextLength()
+            dummytext.remove()
+            return len;
+        }
+
+        const frame = details.append("rect").attr("class","frame")
+                                .attr("x", 0).attr("y", 0)
+                                .attr("rx", 5).attr("ry", 5)  
+                                .attr("height", 80);
+        const textbox = details.append("g").attr("transform","translate(10,10)");
+        const format = d3.format(',d');  
+        
+        function updateDetails(d, circleType) {
+
+            textbox.html('');  
+            
+            let athleteName = `Athlete: ${d['name']}`;
+            let date = `Date: ${d['date']}`;
+            let benchDetail = `Benchpress weight (kg): ${d['best3bench_kg']}`;
+            let squatDetail = `Squat weight (kg): ${d['best3squat_kg']}`;
+            
+            let maxWidth = Math.max( stringLen(athleteName), stringLen(date), stringLen(benchDetail), stringLen(squatDetail) )
+            frame.attr("width", maxWidth+20);
+            
+            textbox.append("text").text(athleteName)
+                                  .attr("x", 0)
+                                  .attr("y", 10);
+            textbox.append("text").text(date)
+                                  .attr("x", 0)
+                                  .attr("y", 30);
+
+            if (circleType === 'bench') {
+                textbox.append("text").text(benchDetail)
+                                  .attr("x", 0)
+                                  .attr("y", 50)
+                                  .attr("id", "benchDetail");
+            }
+            else if (circleType === 'squat') {
+                textbox.append("text").text(squatDetail)
+                                  .attr("x", 0)
+                                  .attr("y", 50)
+                                  .attr("id", "squatDetail");
+            }
+            else {
+                textbox.append("text").text("Unknown Type")
+                                  .attr("x", 0)
+                                  .attr("y", 50)
+                                  .attr("id", "benchDetail");
+                
+            }
+            
+        }                
+
+
+        const requestData = async function() {
+        
+            const powerlifting = await d3.csv("data/powerlifting.csv", d3.autoType);
+            // console.log(powerlifting);
+
+            // DATA CLEANING
+            // keep rows for females age 24-34 who have data for bench and squat
+            let plClean = []
+
+            powerlifting.forEach( (d, i) => {
+                if (d['sex'] === 'F' && d['age_class'] === '24-34' && d['best3bench_kg'] !== 'NA' && d['best3squat_kg'] !== 'NA') {
+                    plClean.push(d);
+                }
+            })
+            // console.log(plClean);
+
+            // SCALES
+            // x scale, dates
+            var parseTime = d3.timeParse("%m/%d/%Y");
+
+            let dates = []
+            plClean.forEach( (d, i) => {
+                dates.push(parseTime(d['date']));
+            })
+
+            const yearScale = d3.scaleTime().domain([d3.min(dates), d3.max(dates)]).range([0, chartWidth]);
+            
+            // y scale, weight
+            let bench = []
+            plClean.forEach( (d, i) => {
+                bench.push(d['best3bench_kg']);
+            })
+            
+            let squat = []
+            plClean.forEach( (d, i) => {
+                squat.push(d['best3squat_kg']);
+            })
+
+            const weightMin = d3.min(bench)
+            const weightMax = d3.max(squat)
+            const weightScale = d3.scaleLinear().domain([weightMin, weightMax]).range([chartHeight, 0]);
+
+            // color scale, by event
+            // HOW TO GET THIS TO WORK?
+            const eventScale = d3.scaleOrdinal()
+                                .domain(['best3bench_kg', 'best3squat_kg'])
+                                .range(['pink', 'blue']);
+
+            // AXES
+            // x axis (year) + gridlines
+            let bottomAxis = d3.axisBottom(yearScale)
+                                .tickFormat(d3.timeFormat("%Y"));
+
+            let bottomGridlines = d3.axisBottom(yearScale)
+                                    .tickSize(-chartHeight-10)
+                                    .tickFormat("")
+
+            annotations.append("g")
+                        .attr("class", "x axis")
+                        .attr("transform",`translate(${margin.left},${chartHeight + margin.top + 10})`)
+                        .call(bottomAxis);
+            annotations.append("g")
+                        .attr("class", "x gridlines")
+                        .attr("transform",`translate(${margin.left},${chartHeight + margin.top + 10})`)
+                        .call(bottomGridlines);
+
+            // y axis (weight) + gridlines
+            let leftAxis = d3.axisLeft(weightScale)
+                            .tickFormat(d3.format(","))
+                            
+            let leftGridlines = d3.axisLeft(weightScale)
+                                .tickSize(-chartWidth-10)
+                                .tickFormat("")
+
+            annotations.append("g")
+                        .attr("class", "y axis")
+                        .attr("transform",`translate(${margin.left-10},${margin.top})`)
+                        .call(leftAxis)
+            annotations.append("g")
+                        .attr("class", "y gridlines")
+                        .attr("transform",`translate(${margin.left-10},${margin.top})`)
+                        .call(leftGridlines);
+
+            function jitter() { return Math.random() * 6 + (-3); }
+            
+            let squatCircles = chartArea.selectAll("circle.squat")
+                                        .data(plClean)
+                                        .join("circle")
+                                        .attr("r", 4)
+                                        .attr("cx", d => yearScale(parseTime(d['date'])) + jitter() )
+                                        .attr("cy", d => weightScale(d['best3squat_kg']) + jitter() )
+                                        .attr("fill", "dodgerblue")
+                                        .attr("opacity", .6)
+                                        .style("stroke-width", "1px")
+                                        .style("stroke", "blue");
+            
+            let benchCircles = chartArea.selectAll("circle.bench")
+                                        .data(plClean)
+                                        .join("circle")
+                                        .attr("r", 4)
+                                        .attr("cx", d => yearScale(parseTime(d['date'])) + jitter() )
+                                        .attr("cy", d => weightScale(d['best3bench_kg']) + jitter() )
+                                        .attr("fill", "lightcoral")
+                                        .style("stroke-width", "1px")
+                                        .style("stroke", "red")
+                                        .attr("opacity", .6);
+
+            // Empty text tag
+            chartArea.append("text")
+                    .attr("x", 50)
+                    .attr("y", 25)
+                    .attr("id", "details")
+                    .style("font-size", 10)
+                    .style("font-weight", "bold")
+                    .text(" ")
+
+            // Mouseovers
+            squatCircles.on("mouseover", function() {
+                d3.select(this)
+                    .transition().duration(100)
+                    .attr("r", 14)
+                    .attr("stroke-width", 3)
+                    .attr("stroke","black")
+                    .attr("opacity", 1);
+
+                details.attr("visibility", "");
+                updateDetails( d3.select(this).datum(), "squat" )
+
+            });
+
+            squatCircles.on("mouseout", function() {
+                d3.select(this)
+                    .transition().duration(100)
+                    .attr("stroke-width",1)
+                    .attr("r", 4)
+                    .attr("stroke","none")
+                    .attr("opacity", .6);
+            
+                details.attr("visibility", "hidden");
+            });
+
+            benchCircles.on("mouseover", function() {
+                d3.select(this)
+                    .transition().duration(100)
+                    .attr("r", 14)
+                    .attr("stroke-width", 3)
+                    .attr("stroke","black")
+                    .attr("opacity", 1);
+
+                details.attr("visibility", "");
+                updateDetails( d3.select(this).datum(), "bench" )
+            });
+
+            benchCircles.on("mouseout", function() {
+                d3.select(this)
+                    .transition().duration(100)
+                    .attr("stroke-width",1)
+                    .attr("r", 4)
+                    .attr("stroke","none")
+                    .attr("opacity", .6)
+            
+                details.attr("visibility", "hidden");
+            });
+
+            // LEGEND
+            let eventLegend = d3.select("div#legend");
+
+            let svgLegend = eventLegend.append("svg")
+                                       .attr("width", "300px")
+                                       .attr("height", "50px");
+
+            let benchLeg = svgLegend.append("g")
+                                    .attr("class", "legendG")
+
+            let squatLeg = svgLegend.append("g")
+                                    .attr("class", "legendG")
+
+            
+            benchLeg.append("circle")
+                    .attr("cx", 25)
+                    .attr("cy", 25)
+                    .attr("r", 10)
+                    .attr("fill", "lightcoral")
+                    .style("stroke-width", "1px")
+                    .style("stroke", "red")
+                    .attr("opacity", .6)
+                    .attr("class", "legendCircle")
+                    .attr("id", "benchLegCircle");
+            
+            benchLeg.append("text")
+                    .text("Benchpress")
+                    .attr("x", 40)
+                    .attr("y", 25)
+                    .style("dominant-baseline", "middle")
+                    .style("color", "black")
+                    .style("margin", "7px")
+                    .style("padding", "4px")
+                    .attr("class", "legendLabel");
+
+           squatLeg.append("circle")
+                    .attr("cx", 150)
+                    .attr("cy", 25)
+                    .attr("r", 10)
+                    .attr("fill", "dodgerblue")
+                    .style("stroke-width", "1px")
+                    .style("stroke", "blue")
+                    .attr("opacity", .6)
+                    .attr("class", "legendCircle")
+                    .attr("id", "squatLegCircle");
+
+            squatLeg.append("text")
+                    .text("Squat")
+                    .attr("x", 165)
+                    .attr("y", 25)
+                    .style("dominant-baseline", "middle")
+                    .style("color", "black")
+                    .style("margin", "7px")
+                    .style("padding", "4px")
+                    .attr("class", "legendLabel");
+
+            let squatLegCircle = d3.select("circle#squatLegCircle.legendCircle")
+            let benchLegCircle = d3.select("circle#benchLegCircle.legendCircle")
+            
+            // state to keep the click
+            let clickState = 'equal'
+            
+            benchLeg.on("click", function() {
+                if (clickState !== 'benchUp') {
+                    benchCircles.raise()
+                                .attr("opacity", 1);
+
+                    squatCircles.attr("opacity", .2);
+                    
+                    clickState = 'benchUp';
+                }
+
+                else {
+                    squatCircles.attr("opacity", .6);
+                    benchCircles.attr("opacity", .6);
+                    
+                    clickState = 'equal';
+                }
+                   
+            })
+
+            squatLeg.on("click", function() {
+                if (clickState !== 'squatUp') {
+                    squatCircles.raise()
+                                .attr("opacity", 1);
+
+                    benchCircles.attr("opacity", .2);
+
+                    clickState = 'squatUp';
+                }
+
+                else {
+                    benchCircles.attr("opacity", .6);
+
+                    squatCircles.attr("opacity", .6);
+                    
+                    clickState = 'equal';
+                }
+                   
+            })
+
+            // Legend hovers
+            // Wasn't sure how to get the stroke and bold to stay when clicked
+
+            squatLegCircle.on("mouseover", function() {
+                squatLegCircle.style("stroke-width", "4px");
+            })
+
+            benchLegCircle.on("mouseover", function() {
+                benchLegCircle.style("stroke-width", "4px");
+            })
+
+            squatLegCircle.on("mouseout", function() {
+                squatLegCircle.style("stroke-width", "1px");
+            })
+
+            benchLegCircle.on("mouseout", function() {
+                benchLegCircle.style("stroke-width", "1px");
+            })
+        
+        }
+        requestData();
+
+
+
+    </script>
+
+    
+
+</body>
+</html>

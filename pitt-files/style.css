@@ -1,0 +1,114 @@
+/* Map outline */
+.outline {
+    stroke-width: 2px;
+    fill: none;
+    stroke: #333;
+}
+
+/* Heading and paragraph text */
+h1, p, h2, h3, h4 {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    margin: 0;
+}
+
+h1, p {
+    padding: 0 15px;
+}
+
+/* Centered content */
+.align-center {
+    display: flex;
+    justify-content: center;
+}
+
+/* List of restaurants */
+.list {
+    max-height: 600px;
+    overflow-y: scroll;
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+/* Each restaurant entry in the list */
+.restaurantEntry {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.restaurantName {
+    margin-right: 10px;
+    font-weight: bold;
+    flex-grow: 1;
+}
+
+.starRatings {
+    font-size: 18px;
+    color: #FFD700;
+    display: flex;
+    align-items: center;
+}
+
+.fullStar {
+    margin-right: 2px;
+}
+
+.halfStar {
+    margin-right: 2px;
+    font-size: 16px;
+}
+
+/* Selected restaurant info */
+#selected {
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid #ddd;
+}
+
+/* Category and neighborhood buttons */
+/* Category and neighborhood buttons */
+.categoryButton, .neighborhoodButton, .starButton {
+    background-color: #eee;
+    border: none;
+    padding: 10px;
+    margin: 5px 2px; /* reduce the horizontal margin to 2px */
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Restaurant filter buttons */
+.filterButton {
+    background-color: #eee;
+    border: none;
+    padding: 5px 10px;
+    margin: 5px 2px; /* reduce the horizontal margin to 2px */
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.categoryButton:hover, .neighborhoodButton:hover, .starButton:hover, .filterButton:hover {
+    background-color: #6ed30b;
+    color: white;
+}
+
+.active {
+    background-color: #6ed30b;
+    color: white;
+}
+
+/* Red button */
+.redButton {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.redButton:hover {
+    background-color: #ff4444;
+}

@@ -99,11 +99,21 @@ input, select, textarea {
 	}
 
 	body {
-		background-color: #935d8c;
-		background-image: url("images/overlay.png"), -moz-linear-gradient(45deg, #e37682 15%, #5f4d93 85%);
+		/* background-color: #935d8c; */
+		/* background-image: url("images/overlay.png"), -moz-linear-gradient(45deg, #e37682 15%, #5f4d93 85%);
 		background-image: url("images/overlay.png"), -webkit-linear-gradient(45deg, #e37682 15%, #5f4d93 85%);
 		background-image: url("images/overlay.png"), -ms-linear-gradient(45deg, #e37682 15%, #5f4d93 85%);
-		background-image: url("images/overlay.png"), linear-gradient(45deg, #e37682 15%, #5f4d93 85%);
+		background-image: url("images/overlay.png"), linear-gradient(45deg, #e37682 15%, #5f4d93 85%); */
+
+		background-color: #606d96;
+		/* background-image: url("images/overlay.png"), -moz-linear-gradient(45deg, #4559f4 15%, #a4bbf0 85%); */
+		background-image: url("images/overlay.png"), -moz-linear-gradient(45deg, #071028 15%, #606d96 85%);
+		background-image: url("images/overlay.png"), -webkit-linear-gradient(45deg, #071028 15%, #606d96 85%);
+		background-image: url("images/overlay.png"), -ms-linear-gradient(45deg, #071028 15%, #606d96 85%);
+		background-image: url("images/overlay.png"), linear-gradient(45deg, #071028 15%, #606d96 85%);
+
+
+		/* background-image: url("images/overlay.png"), -moz-linear-gradient(45deg, #4559f4 15%, #67b364 85%); */
 	}
 
 		body.is-preload *, body.is-preload *:before, body.is-preload *:after {
@@ -120,7 +130,8 @@ input, select, textarea {
 /* Type */
 
 	body {
-		background-color: #935d8c;
+		/* background-color: #935d8c; */
+		background-color: #606d96;
 		color: rgba(255, 255, 255, 0.65);
 	}
 
@@ -2291,6 +2302,38 @@ input, select, textarea {
 			}
 
 		.icon.style1 {
+			color: #071028
+		}
+
+		.icon.style2 {
+			color: #131d36
+		}
+
+		.icon.style3 {
+			color: #1f2945
+		}
+
+		.icon.style4 {
+			color: #2b3654
+		}
+
+		.icon.style5 {
+			color: #384364
+		}
+
+		.icon.style6 {
+			color: #455074
+		}
+
+		.icon.style7 {
+			color: #525f85
+		}
+
+		.icon.style8 {
+			color: #606d96
+		}
+
+		/* .icon.style1 {
 			color: #efa8b0;
 		}
 
@@ -2316,7 +2359,7 @@ input, select, textarea {
 
 		.icon.style7 {
 			color: #8cf09b;
-		}
+		} */
 
 		@media screen and (max-width: 1680px) {
 
@@ -3352,7 +3395,7 @@ input, select, textarea {
 		}
 
 		#main a:hover {
-			color: #636363;
+			color: #ee4d98;
 		}
 
 		#main strong, #main b {
@@ -3534,6 +3577,7 @@ input, select, textarea {
 		#main .icon.alt {
 			border-color: #dddddd;
 			color: #636363;
+			/* color: #b55bae; */
 		}
 
 			#main .icon.alt:hover {
@@ -3553,11 +3597,16 @@ input, select, textarea {
 		}
 
 		#main header.major h2:after {
-			background-color: #dddddd;
+			/* background-color: #dddddd;
 			background-image: -moz-linear-gradient(90deg, #efa8b0, #a89cc8, #8cc9f0);
 			background-image: -webkit-linear-gradient(90deg, #efa8b0, #a89cc8, #8cc9f0);
 			background-image: -ms-linear-gradient(90deg, #efa8b0, #a89cc8, #8cc9f0);
-			background-image: linear-gradient(90deg, #efa8b0, #a89cc8, #8cc9f0);
+			background-image: linear-gradient(90deg, #efa8b0, #a89cc8, #8cc9f0); */
+			background-color: #dddddd;
+			background-image: -moz-linear-gradient(90deg, #ee4d98, #384364, #071028);
+			background-image: -webkit-linear-gradient(90deg, #ee4d98, #384364, #071028);
+			background-image: -ms-linear-gradient(90deg, #ee4d98, #384364, #071028);
+			background-image: linear-gradient(90deg, #ee4d98, #384364, #071028);
 		}
 
 		#main table tbody tr {

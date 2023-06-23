@@ -163,7 +163,7 @@ input, select, textarea {
 		-ms-transition: color 0.2s ease, border-bottom 0.2s ease;
 		transition: color 0.2s ease, border-bottom 0.2s ease;
 		text-decoration: none;
-		border-bottom: dotted 1px;
+		/* border-bottom: dotted 1px; */
 		color: inherit;
 	}
 
@@ -2378,9 +2378,10 @@ input, select, textarea {
 
 	.image {
 		border-radius: 8px;
-		border: 0;
+		border: 2px solid #071028;
 		display: inline-block;
 		position: relative;
+		margin-bottom: 10px;
 	}
 
 		.image img {
@@ -2887,39 +2888,45 @@ input, select, textarea {
 		cursor: default;
 	}
 
+	.statistics a {
+		font-size: 1.1em;
+	}
+
 		.statistics li {
 			-moz-flex: 1;
 			-webkit-flex: 1;
 			-ms-flex: 1;
 			flex: 1;
+			margin: 0 0.5em 0 0.5em;
 			padding: 1.5em;
 			color: #ffffff;
 			text-align: center;
+			border-radius: 8px;
 		}
 
 			.statistics li.style1 {
-				background-color: #efa8b0;
+				background-color: #ee4d98;
 			}
 
 			.statistics li.style2 {
-				background-color: #c79cc8;
+				background-color: #c85cab;
 			}
 
 			.statistics li.style3 {
-				background-color: #a89cc8;
+				background-color: #9e68b1;
 			}
 
 			.statistics li.style4 {
-				background-color: #9bb2e1;
+				background-color: #796da9;
 			}
 
 			.statistics li.style5 {
-				background-color: #8cc9f0;
+				background-color: #606d96;
 			}
 
 			.statistics li strong, .statistics li b {
 				display: block;
-				font-size: 2em;
+				font-size: 1.7em;
 				line-height: 1.1;
 				color: inherit !important;
 				font-weight: 300;
@@ -3364,6 +3371,11 @@ input, select, textarea {
 
 		#main a:hover {
 			color: #ee4d98;
+			cursor: pointer;
+		}
+
+		#third a:hover {
+			color: #071028;
 			cursor: pointer;
 		}
 

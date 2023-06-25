@@ -11,6 +11,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<form id="fcf-form-id" class="fcf-form-class" method="post" action="contact-form-process.php"></form>
 	</head>
 	<body class="is-preload">
 
@@ -32,7 +33,7 @@
 							<li><a href="#first">Projects</a></li>
 							<li><a href="#second">Resume</a></li>
 							<li><a href="#third">Media</a></li>
-							<li><a href="#cta">Get Started</a></li>
+							<li><a href="#cta">Contact</a></li>
 						</ul>
 					</nav>
 
@@ -137,14 +138,7 @@
 								<!-- <p>Donec imperdiet consequat consequat. Suspendisse feugiat congue<br />
 								posuere. Nulla massa urna, fermentum eget quam aliquet.</p> -->
 							</header>
-							<ul class="statistics">
-								<!-- <li class="style1">
-									<span class="icon solid fa-code-branch"></span>
-									<strong>5,120</strong> Etiam
-								</li> -->
-
-								<!-- <a href="https://scl.cornell.edu/news-events/news/cals-senior-wins-national-student-employee-award" target="_blank">CALS senior wins national student employee award </a> -->
-								
+							<ul class="statistics">							
 								<li class="style5">
 									<!-- <span class="icon fa-folder-open"></span> -->
 									<strong><a href="https://news.cornell.edu/stories/2023/05/cals-senior-wins-national-student-employee-award" target="_blank"><img src="images/nsey.jpg" height="140px" width="250px" class="image"> <br>CALS senior wins national <br>student employee award </a></strong> 
@@ -165,7 +159,7 @@
 									<strong>Publication</strong><br><a href="https://onlinelibrary.wiley.com/doi/full/10.1111/mcn.13342" target="_blank">Cultural influences on infant and toddler feeding among low-income Latinx mothers</a>
 								</li>
 							</ul>
-							<!-- <p class="content">Nam elementum nisl et mi a commodo porttitor. Morbi sit amet nisl eu arcu faucibus hendrerit vel a risus. Nam a orci mi, elementum ac arcu sit amet, fermentum pellentesque et purus. Integer maximus varius lorem, sed convallis diam accumsan sed. Etiam porttitor placerat sapien, sed eleifend a enim pulvinar faucibus semper quis ut arcu. Ut non nisl a mollis est efficitur vestibulum. Integer eget purus nec nulla mattis et accumsan ut magna libero. Morbi auctor iaculis porttitor. Sed ut magna ac risus et hendrerit scelerisque. Praesent eleifend lacus in lectus aliquam porta. Cras eu ornare dui curabitur lacinia.</p> -->
+							
 							<footer class="major">
 								<!-- <ul class="actions special">
 									<li><a href="generic.html" class="button">Learn More</a></li>
@@ -176,30 +170,46 @@
 						<!-- Get Started -->
 							<section id="cta" class="main special">
 								<header class="major">
-									<h2>Congue imperdiet</h2>
-									<p>Donec imperdiet consequat consequat. Suspendisse feugiat congue<br />
-									posuere. Nulla massa urna, fermentum eget quam aliquet.</p>
-								</header>
-								<footer class="major">
-									<ul class="actions special">
-										<li><a href="generic.html" class="button primary">Get Started</a></li>
-										<li><a href="generic.html" class="button">Learn More</a></li>
-									</ul>
-								</footer>
+									<h2>Get In Touch</h2>
+									
+									<form id="fcf-form-id" class="fcf-form-class" method="post" action="contact-form-process.php">
+										<label for="Name" class="fcf-label">Name</label>
+										<div class="fcf-input-group">
+											<input type="text" id="Name" name="Name" class="fcf-form-control" required>
+										</div>
+									<div class="fcf-form-group">
+										<label for="Email" class="fcf-label">Email address</label>
+										<div class="fcf-input-group">
+											<input type="email" id="Email" name="Email" class="fcf-form-control" required>
+										</div>
+									<div class="fcf-form-group">
+										<label for="Message" class="fcf-label">Message</label>
+										<div class="fcf-input-group">
+											<textarea id="Message" name="Message" class="fcf-form-control" rows="6" maxlength="3000" required></textarea>
+										</div>
+									</div>
+									<div class="fcf-form-group">
+										<button type="submit" id="fcf-button" class="fcf-btn fcf-btn-primary fcf-btn-lg fcf-btn-block button primary">Send</button>
+									</div>
 							</section>
-
 					</div>
 
 				<!-- Footer -->
 					<footer id="footer">
 						<section>
-							<h2>Aliquam sed mauris</h2>
-							<p>Sed lorem ipsum dolor sit amet et nullam consequat feugiat consequat magna adipiscing tempus etiam dolore veroeros. eget dapibus mauris. Cras aliquet, nisl ut viverra sollicitudin, ligula erat egestas velit, vitae tincidunt odio.</p>
+							<!-- <h2>Find me here.</h2> -->
+							<!-- <p>Sed lorem ipsum dolor sit amet et nullam consequat feugiat consequat magna adipiscing tempus etiam dolore veroeros. eget dapibus mauris. Cras aliquet, nisl ut viverra sollicitudin, ligula erat egestas velit, vitae tincidunt odio.</p>
 							<ul class="actions">
 								<li><a href="generic.html" class="button">Learn More</a></li>
+							</ul> -->
+							<ul class="icons">
+								<li><a href="https://www.linkedin.com/in/hannahrudt/" class="icon brands fa-linkedin alt"><span class="label">LinkedIn</span></a></li>
+								<!-- <li><a href="#" class="icon brands fa-instagram alt"><span class="label">Instagram</span></a></li> -->
+								<li><a href="https://github.com/hannahrudt" class="icon brands fa-github alt"><span class="label">GitHub</span></a></li>
 							</ul>
+							
 						</section>
-						<section>
+						<!-- <section>
 							<h2>Etiam feugiat</h2>
 							<dl class="alt">
 								<dt>Address</dt>
@@ -216,8 +226,9 @@
 								<li><a href="#" class="icon brands fa-github alt"><span class="label">GitHub</span></a></li>
 								<li><a href="#" class="icon brands fa-dribbble alt"><span class="label">Dribbble</span></a></li>
 							</ul>
-						</section>
+						</section> -->
 						<!-- <p class="copyright">&copy; Untitled. Design: <a href="https://html5up.net">HTML5 UP</a>.</p> -->
+						<!-- <p class="copyright"><a href="https://www.linkedin.com/in/hannahrudt/" target="_blank">LinkedIn</a></p> -->
 						<p class="copyright">Template built by <a href="https://twitter.com/ajlkn" target="_blank">@ajlkn</a> for <a href="https://html5up.net" target="_blank">HTML5 UP</a></a>.</p>
 					</footer>
 

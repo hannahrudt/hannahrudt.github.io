@@ -29,7 +29,6 @@ div#legend{
     height: 50px;
     width: 300px;
     position: relative;
-    left: 100px; 
 }
 
 .legendLabel:hover {
@@ -46,12 +45,18 @@ div#legend{
     cursor: pointer;
 }
 
+.flex {
+    display: flex;
+}
+
+body {
+    margin-top: 5%;
+}
+
 </style>
 
 <body>
-    <h3> Hannah Rudt </h3>
-
-    <p>I am visualizing the powerlifting dataset because I am personally interested in female athletes and the dataset provides many 
+    <!-- <p>I am visualizing the powerlifting dataset because I am personally interested in female athletes and the dataset provides many 
         opportunities to break down the data into categories (e.g., by age, by event, by biological sex). The question I will answer with 
         my visualization is: Have female athletes age 24-34 improved their squat and benchpress performance over time? <br>
         The plotted points have mouseover so when the pointer hovers, a text box appears on the top left of the graph with information
@@ -59,12 +64,13 @@ div#legend{
 
         One design choice I would have liked to incorporate was maintaining the bold text and increased stroke around the circles in the 
         legend when clicked, but I didn't get a chance to figure it out. 
-    </p>
+    </p> -->
+    <div class="flex">
+        <div id="svgdiv">
+            <svg id="svg" height="500" width="900"></svg>
+        </div>
 
-    <div id="legend"></div>
-
-    <div id="svgdiv">
-        <svg id="svg" height="800" width="900"></svg>
+        <div id="legend"></div>
     </div>
 
     <script>
